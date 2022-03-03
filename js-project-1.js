@@ -14,43 +14,38 @@ const result = computerPlay(array);
 console.log(result);
 
 
+//player
 
-// computer #2
-function computerPlay2(objects2) {
-    const randomIndex2 = Math.floor(Math.random() * objects2.length);
-    const item2 = objects2[randomIndex2];
-    return item2;
-}
+const answer = prompt("What do you choose? Rock, paper, or scissors?");
 
-const array2 = [rock, paper, scissors];
-const result2 = computerPlay2(array2);
-console.log(result2);
 
-function gameRound2(computer1Selection, computer2Selection) {
-    if (computer1Selection === rock && computer2Selection === scissors) {
-        return ('Computer 1 wins. Rock beats scissors');
-    } else if (computer1Selection === rock && computer2Selection === paper) {
-        return ('Computer 2 wins. Paper beats rock');
-    } else if (computer1Selection === scissors && computer2Selection === rock) {
-        return ('Computer 2 wins. Rock beats scissors');
-    } else if (computer1Selection === scissors && computer2Selection === paper) {
-        return ('Computer 1  wins. Scissors beats paper.');
-    } else if (computer1Selection === paper && computer2Selection === rock) {
-        return ('Computer 1 wins. Paper beats rock.');
-    } else if (computer1Selection === paper && computer2Selection === scissors) {
-        return ('Computer 2 wins. Scissors beats paper.');
+
+function gameRound2(playerSelection, computerSelection) {
+    if (playerSelection.toLowerCase() == "rock" && computerSelection === scissors) {
+        return ('You win! Rock beats scissors');
+    } else if (playerSelection.toLowerCase() =="rock" && computerSelection === paper) {
+        return ('You lose. Paper beats rock');
+    } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === rock) {
+        return ('You lose. Rock beats scissors');
+    } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === paper) {
+        return ('You win!. Scissors beats paper.');
+    } else if (playerSelection.toLowerCase() == "paper" && computerSelection === rock) {
+        return ('You win!. Paper beats rock.');
+    } else if (playerSelection.toLowerCase() == "paper" && computerSelection === scissors) {
+        return ('You lose. Scissors beats paper.');
     }
     
-    if (computer1Selection === rock && computer2Selection === rock) {
+    if (playerSelection.toLowerCase() == "rock" && computerSelection === rock) {
         return ('Draw. No one wins.');
-    } else if (computer1Selection === paper && computer2Selection == paper) {
+    } else if (playerSelection.toLowerCase() == "paper" && computerSelection == paper) {
         return ('Draw. No one wins.');
-    } else if (computer1Selection === scissors && computer2Selection === scissors) {
+    } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === scissors) {
         return ('Draw. No one wins.');
     }
     
 }
 
-const computer1Selection = result;
-const computer2Selection = result2;
-console.log(gameRound2(computer1Selection, computer2Selection));
+const playerSelection = answer;
+console.log(playerSelection);
+const computerSelection = result;
+console.log(gameRound2(playerSelection, computerSelection));
