@@ -1,6 +1,23 @@
 const rock = 'Rock';
 const paper = 'Paper';
 const scissors = 'Scissors';
+const array = [rock, paper, scissors];
+const html = document.querySelector('html');
+const h1 = document.querySelector('h1');
+const wiiSports = document.querySelector('audio');
+const results = document.querySelector('#results');
+const score = document.querySelector('#score');
+const playerScore = document.querySelector('#player-score');
+const computerScore = document.querySelector('#computer-score');
+const buttonContainer = document.querySelector('#buttons');
+const buttons = document.querySelectorAll('button');
+const removeButtondiv = document.createElement('div');
+let playerWin = 0;
+let computerWin = 0;
+
+score.appendChild(playerScore);
+score.appendChild(computerScore);
+
 
 // computer
 function computerPlay(objects) {
@@ -9,12 +26,17 @@ function computerPlay(objects) {
     return item;
 }
 
-const array = [rock, paper, scissors];
+function displayResults(str) {
+    results.textContent = str
+}
 
-let playerWin = 0;
-let computerWin = 0;
+function displayScore(str, str2) {
+    playerScore.textContent = str;
+    computerScore.textContent = str2;
+}
 
 function gameRound(playerSelection, computerSelection,) {
+
     if (playerSelection.toLowerCase() == "rock" && computerSelection === scissors) {
         return ('You win! Rock beats scissors.');
     } else if (playerSelection.toLowerCase() =="rock" && computerSelection === paper) {
@@ -22,23 +44,25 @@ function gameRound(playerSelection, computerSelection,) {
     } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === rock) {
         return ('You lose. Rock beats scissors.');
     } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === paper) {
-        return ('You win!. Scissors beats paper.');
+        return ('You win! Scissors beats paper.');
     } else if (playerSelection.toLowerCase() == "paper" && computerSelection === rock) {
-        return ('You win!. Paper beats rock.');
+        return ('You win! Paper beats rock.');
     } else if (playerSelection.toLowerCase() == "paper" && computerSelection === scissors) {
         return ('You lose. Scissors beats paper.');
     }
     
     if (playerSelection.toLowerCase() == "rock" && computerSelection === rock) {
-        return ('Draw. No one wins.');
+        return ('Draw.');
     } else if (playerSelection.toLowerCase() == "paper" && computerSelection == paper) {
-        return ('Draw. No one wins.');
+        return ('Draw.');
     } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === scissors) {
-        return ('Draw. No one wins.');
+        return ('Draw.');
     }
 }
 
+
 function win(playerSelection, computerSelection,) {
+
     if (playerSelection.toLowerCase() == "rock" && computerSelection === scissors) {
         playerWin++;
     } else if (playerSelection.toLowerCase() =="rock" && computerSelection === paper) {
@@ -52,38 +76,48 @@ function win(playerSelection, computerSelection,) {
     } else if (playerSelection.toLowerCase() == "paper" && computerSelection === scissors) {
         computerWin++;
     }
-    
-    if (playerSelection.toLowerCase() == "rock" && computerSelection === rock) {
-        
-    } else if (playerSelection.toLowerCase() == "paper" && computerSelection == paper) {
-        
-    } else if (playerSelection.toLowerCase() == "scissors" && computerSelection === scissors) {
-        
-    }
 }
-    
-game();
 
 function game() {
-    for (let i = 0; i < 5; i++) {
-        const computerAnswer = computerPlay(array);
-        console.log(computerAnswer);
-        const playerAnswer = prompt("What do you choose? Rock, paper, or scissors?");
-        console.log(playerAnswer);
-        console.log(gameRound(playerAnswer, computerAnswer));
-        win(playerAnswer, computerAnswer);
-        console.log('Player Score: ' + playerWin + ' Computer Score: ' + computerWin );
-        
-        if (playerWin === 3) {
-            console.log('Game over! You won the game!');
-            console.log('Final Score: Player : ' + playerWin + ' Computer: ' + computerWin);
-            break;
-        } else if (computerWin === 3) {
-            console.log('Game over. The computer won the game.')
-            console.log('Final Score: Player : ' + playerWin + ' Computer: ' + computerWin);
-            break;
-        } else if (playerWin === 2 && computerWin === 2) {
-            console.log('Draw. Nobody won.');
-        }
-    }
+    
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const randomPlay = computerPlay(array);
+            win(button.id, randomPlay);
+            displayScore(playerWin, computerWin);
+            displayResults(gameRound(button.id, randomPlay));
+            if (playerWin === 5) {
+                results.textContent = 'Game over! You won the game!';
+                removeButtons(buttonContainer);
+                removeButtons(h1);
+                moveBack(playerScore, computerScore);
+                confetti(html);
+            } else if (computerWin === 5) {
+                results.textContent = 'Game over. The computer won the game.';
+                removeButtons(buttonContainer);
+                removeButtons(h1);
+                moveBack(playerScore, computerScore);
+                confetti(html);
+            }
+        });
+    });
 }
+
+function removeButtons(e) {
+    e.removeAttribute('id');
+    e.classList.add('removingButtons');
+}
+
+function moveBack(e, f) {
+    e.classList.add('movingBack');
+    f.classList.add('movingBack');
+}
+
+function confetti(e) {
+    e.setAttribute('style', "background: url('./images/confetti-4.gif')bottom center;" );
+    wiiSports.play();
+}
+
+game();
+
+
